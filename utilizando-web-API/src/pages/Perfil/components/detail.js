@@ -1,32 +1,31 @@
 import React from 'react';
 import { StyleSheet, View, Text, Button, TextInput, Dimensions, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const { width, height } = Dimensions.get('screen')
 
-export default function Detail () {
+export default function Detail ({ email, name, followers, following, id }) {
+    const navigation = useNavigation();
+
     return (
         <View style={styles.detail}>
-            <Text style={styles.name}>Luan Gabriel Fauth D'Avila</Text>
-            <Text style={styles.email}>gabrielfauth@outlook.com</Text>
+            <Text style={styles.name}>{ name }</Text>
+            <Text style={styles.email}>{ email }</Text>
             <View style={styles.follow}>
                 <View style={styles.follows}>
-                    <Text style={styles.followsNum}>98</Text>
+                    <Text style={styles.followsNum}>{ followers }</Text>
                     <Text>Seguidores</Text>
                 </View>
                 <View style={styles.follows}>
-                    <Text style={styles.followsNum}>35</Text>
+                    <Text style={styles.followsNum}>{ following }</Text>
                     <Text>Seguindo</Text>
                 </View>
             </View>
-            <TouchableOpacity style={styles.repos}>
+            <TouchableOpacity 
+                style={styles.repos}
+                onPress={() => navigation.navigate('ListaRepositorios', { id: id })} >
                 <Text style={styles.reposText}>Ver Repositórios</Text>
             </TouchableOpacity>
-            <View>
-                <TextInput style={styles.input} />
-                <TouchableOpacity style={styles.search}>
-                    <Text style={styles.searchText}>Buscar</Text>
-                </TouchableOpacity>
-            </View>
         </View>
     )
 }
@@ -66,25 +65,5 @@ const styles = StyleSheet.create({
     reposText: {
         color: '#8A07DA',
         fontWeight: 'bold'
-    },
-    input: {
-        marginTop: 32,
-        backgroundColor: '#C6C6C6',
-        borderRadius: 6,
-        width: width*0.9
-    },
-    search: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#8A07DA',
-        marginTop: 8,
-        width: width*0.9,
-        height: 32,
-        borderRadius: 6,
-    },
-    searchText: {
-        color: '#ffffff',
-        fontSize: 16,
-        lineHeight: 26
     }
 })

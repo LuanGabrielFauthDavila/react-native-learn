@@ -8,22 +8,21 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 
-//SERVICES
-import api from '../../services/api';
+//HOOKS
+import buscaUsers from '../../hooks/buscaUsers';
 
 
 export default function Home () {
     const [users, setUsers] = useState([])
     const navigation = useNavigation();
 
-    async function Busca() {
-        const response = await axios.get('http://127.0.0.1:3000/users')
-        console.log(response)
-        setUsers(response.data)
+    
+    async function initUsers () {
+        setUsers(await buscaUsers())
     }
     useEffect(() => {
-        Busca()
-    })
+        initUsers()
+    }, [])
 
     return <>
         <FlatList 
@@ -31,16 +30,18 @@ export default function Home () {
             renderItem={({ item }) =>
                 <TouchableOpacity
                     style={styles.btn}
-                    // onPress={() => navigation.navigate('Perfil') } >
-                    onPress={Busca()} >
+                    onPress={() => navigation.navigate('Perfil', item) } >
                         <Text style={styles.btnTxt}>{ item.name }</Text>
                 </TouchableOpacity>
             }
-            ListHeaderComponent={() => {
-                return (
-                    <Text>Tamanho do array { users.length }</Text>
-                )
-            }} />
+            keyExtractor={(item) => item.id}
+            ListHeaderComponent={() => 
+                <TouchableOpacity 
+                    onPress={initUsers}
+                    style={styles.buscar} >
+                    <Text style={{ color: '#ffffff' }}>Buscar</Text>
+                </TouchableOpacity>
+            } />
 
     </>
 }
@@ -52,8 +53,18 @@ const styles = StyleSheet.create({
         backgroundColor: '#363636',
         justifyContent: 'center',
         alignItems: 'center',
+        marginBottom: 8
     },
     btnTxt: {
         color: 'white'
+    },
+    buscar: {
+        widht: '90%',
+        height: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#8A07DA',
+        marginVertical: 18,
+        borderRadius: 6
     }
 })

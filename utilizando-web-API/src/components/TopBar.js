@@ -8,7 +8,9 @@ import BackArrow from '../assets/icons/backArrow.png'
 const dimensions = Dimensions.get('screen')
 
 
-export default function TopBar () {
+export default function TopBar ({
+    title = 'Voltar'
+}) {
     const navigation = useNavigation();
 
     return (
@@ -19,7 +21,7 @@ export default function TopBar () {
             onPress={() => navigation.goBack()} >
                 <Image source={BackArrow} style={styles.BackArrow} />
             </TouchableOpacity>
-            <Text>Topo Titulo</Text>
+            <Text>{ title }</Text>
         </View>
     )
 }

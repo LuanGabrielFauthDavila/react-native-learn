@@ -4,12 +4,12 @@ import { StyleSheet, View, Dimensions, Image  } from 'react-native';
 const { width, height } = Dimensions.get('screen')
 
 
-export default function Main () {
+export default function Main ({ avatar_url }) {
     return (
         <View style={styles.main}>
             <View style={styles.coverImage} />
             <View style={styles.bgImage}>
-                <Image source={{ uri: 'https://avatars.githubusercontent.com/u/9091491?v=4' }} style={styles.mainImage} />
+                <Image source={{ uri: avatar_url }} style={styles.mainImage} />
             </View>
         </View>
     )
